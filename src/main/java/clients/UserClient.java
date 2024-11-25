@@ -1,9 +1,11 @@
 package clients;
 
 import io.qameta.allure.Step;
+import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import config.ConfigApp;
+import config.ApiConfig;
 import models.User;
+import models.UserCreds;
 
 import static io.restassured.RestAssured.given;
 
@@ -15,16 +17,16 @@ public class UserClient {
         .header("Content-Type", "application/json")
         .body(user)
         .when()
-        .post(ConfigApp.BASE_URL + ConfigApp.REGISTER_USER);
+        .post(ApiConfig.BASE_URL + ApiConfig.REGISTER_USER);
   }
 
   @Step("Send POST request to login user")
-  public Response loginUser(String email, String password) {
+  public Response loginUser(UserCreds userCreds) {
     return given()
         .header("Content-Type", "application/json")
-        .body("{\"email\": \"" + email + "\", \"password\": \"" + password + "\"}")
+        .body(userCreds)
         .when()
-        .post(ConfigApp.BASE_URL + ConfigApp.LOGIN_USER);
+        .post(ApiConfig.BASE_URL + ApiConfig.LOGIN_USER);
   }
 
   @Step("Send POST request to logout user")
@@ -33,7 +35,7 @@ public class UserClient {
         .header("Content-Type", "application/json")
         .body("{\"token\": \"" + refreshToken + "\"}")
         .when()
-        .post(ConfigApp.BASE_URL + ConfigApp.LOGOUT_USER);
+        .post(ApiConfig.BASE_URL + ApiConfig.LOGOUT_USER);
   }
 
   @Step("Send GET request to get user information")
@@ -42,16 +44,37 @@ public class UserClient {
         .header("Authorization", accessToken)
         .header("Content-Type", "application/json")
         .when()
-        .get(ConfigApp.BASE_URL + ConfigApp.USER_INFO);
+        .get(ApiConfig.BASE_URL + ApiConfig.USER_INFO);
   }
 
   @Step("Send PATCH request to update user information")
   public Response updateUserInfo(String accessToken, User user) {
     return given()
-        .header("Authorization", accessToken)
+        .header("Authorization",  accessToken)
         .header("Content-Type", "application/json")
         .body(user)
         .when()
-        .patch(ConfigApp.BASE_URL + ConfigApp.USER_INFO);
+        .patch(ApiConfig.BASE_URL + ApiConfig.USER_INFO);
+  }
+
+  @Step("Send DELETE request to delete user")
+  public Response deleteUser(String accessToken) {
+    return given()
+        .header("Authorization", accessToken)  // Используем токен для авторизации
+        .contentType(ContentType.JSON)
+        .when()
+        .delete(ApiConfig.BASE_URL + ApiConfig.USER_INFO);
+  }
+
+  @Step("Extract access token from response")
+  public String extractToken(Response response) {
+    return response.jsonPath().getString("accessToken");
+  }
+  // Вспомогательный метод для подготовки токена в формате "Bearer <токен>"
+  private String prepareBearerToken(String accessToken) {
+    if (!accessToken.startsWith("Bearer ")) {
+      return "Bearer " + accessToken;
+    }
+    return accessToken;
   }
 }

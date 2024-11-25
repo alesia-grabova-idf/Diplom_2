@@ -1,6 +1,6 @@
 package config;
 
-public class ConfigApp {
+public class ApiConfig {
 
   public static final String BASE_URL = "https://stellarburgers.nomoreparties.site";
   // USER AUTHENTICATION
@@ -16,5 +16,4 @@ public class ConfigApp {
   public static final String ORDER = "/api/orders";
   public static final String GET_INGREDIENTS = "/api/ingredients";
   public static final String GET_ALL_ORDERS = "/api/orders/all";
-  //j
 }

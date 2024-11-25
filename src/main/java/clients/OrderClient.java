@@ -2,20 +2,21 @@ package clients;
 
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
-import config.ConfigApp;
+import config.ApiConfig;
+import models.Order;
 
 import static io.restassured.RestAssured.given;
 
 public class OrderClient {
 
   @Step("Send POST request to create a new order")
-  public Response createOrder(String accessToken, String[] ingredients) {
+  public Response createOrder(String accessToken, Order ingredients) {
     return given()
         .header("Authorization", accessToken)
         .header("Content-Type", "application/json")
-        .body("{\"ingredients\": " + toJsonArray(ingredients) + "}")
+        .body(ingredients)
         .when()
-        .post(ConfigApp.BASE_URL + ConfigApp.ORDER);
+        .post(ApiConfig.BASE_URL + ApiConfig.ORDER);
   }
 
   @Step("Send GET request to get user orders")
@@ -24,7 +25,7 @@ public class OrderClient {
         .header("Authorization", accessToken)
         .header("Content-Type", "application/json")
         .when()
-        .get(ConfigApp.BASE_URL + ConfigApp.ORDER);
+        .get(ApiConfig.BASE_URL + ApiConfig.ORDER);
   }
 
   @Step("Send GET request to get all orders")
@@ -32,18 +33,7 @@ public class OrderClient {
     return given()
         .header("Content-Type", "application/json")
         .when()
-        .get(ConfigApp.BASE_URL + ConfigApp.GET_ALL_ORDERS);
+        .get(ApiConfig.BASE_URL + ApiConfig.GET_ALL_ORDERS);
   }
 
-  private String toJsonArray(String[] items) {
-    StringBuilder jsonArray = new StringBuilder("[");
-    for (int i = 0; i < items.length; i++) {
-      jsonArray.append("\"").append(items[i]).append("\"");
-      if (i < items.length - 1) {
-        jsonArray.append(",");
-      }
-    }
-    jsonArray.append("]");
-    return jsonArray.toString();
-  }
 }
