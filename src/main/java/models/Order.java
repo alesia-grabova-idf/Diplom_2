@@ -10,9 +10,5 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Order {
-
   private List<String> ingredients;
 }
-
-
-

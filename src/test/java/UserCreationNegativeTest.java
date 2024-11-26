@@ -49,8 +49,7 @@ public class UserCreationNegativeTest {
   @After
   public void tearDown() {
     if (accessToken != null) {
-      Response deleteResponse = userClient.deleteUser(accessToken);
-      deleteResponse.then().statusCode(202);
+      userClient.deleteUser(accessToken);
     }
   }
 
@@ -62,11 +61,8 @@ public class UserCreationNegativeTest {
       Response registerResponse = userClient.registerUser(user);
       accessToken = userClient.extractToken(registerResponse);
     }
-
-    // Отправляем запрос на регистрацию
     Response response = userClient.registerUser(user);
 
-    // Создаем объект для мягких ассертов
     SoftAssertions softAssertions = new SoftAssertions();
     softAssertions.assertThat(response.statusCode())
         .as("Неверный статус код для " + expectedError)

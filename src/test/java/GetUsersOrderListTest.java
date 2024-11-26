@@ -12,7 +12,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class GetOrderListTest {
+public class GetUsersOrderListTest {
 
   private OrderClient orderClient;
   private String accessToken;
@@ -60,4 +60,3 @@ public class GetOrderListTest {
         .body("message", is("You should be authorised"));
   }
 }
-

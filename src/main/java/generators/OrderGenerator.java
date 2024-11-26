@@ -28,7 +28,6 @@ public class OrderGenerator {
       "61c0c5a71d1f82001bdaaa7b"  // Другие ингредиенты
   );
 
-
   private static final Random RANDOM = new Random();
 
   public static Order generateRandomOrder() {

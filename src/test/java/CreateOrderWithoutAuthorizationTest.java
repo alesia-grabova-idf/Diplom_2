@@ -16,7 +16,6 @@ public class CreateOrderWithoutAuthorizationTest {
     orderClient = new OrderClient();
   }
 
-
   @Test
   public void createOrderWithoutAuthorization() {
     Order order = OrderGenerator.generateRandomOrder();
@@ -41,11 +40,10 @@ public class CreateOrderWithoutAuthorizationTest {
   @Test
   public void createOrderWithoutAuthorizationWithInvalidIngredients() {
     Order order = OrderGenerator.generateRandomOrder();
-    order.setIngredients("ivalid123".lines().toList());
+    order.setIngredients("invalid123".lines().toList());
     Response madeOrderResponse = orderClient.createOrder("", order);
     madeOrderResponse.then()
         .assertThat()
         .statusCode(500);
   }
-
 }

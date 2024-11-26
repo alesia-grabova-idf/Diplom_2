@@ -10,12 +10,13 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
 public class EditUserInfoTest {
+
   private UserClient userClient;
   private User user;
   private String accessToken;
 
   @Before
-  public void setUp(){
+  public void setUp() {
     userClient = new UserClient();
     user = randomUser();
     Response response = userClient.registerUser(user);
@@ -25,8 +26,7 @@ public class EditUserInfoTest {
   @After
   public void tearDown() {
     if (accessToken != null) {
-      Response deleteResponse = userClient.deleteUser(accessToken);
-      deleteResponse.then().statusCode(202);
+      userClient.deleteUser(accessToken);
     }
   }
 
@@ -59,4 +59,4 @@ public class EditUserInfoTest {
         .statusCode(401)
         .body("success", is(false));
   }
- }
+}

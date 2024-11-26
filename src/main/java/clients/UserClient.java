@@ -70,11 +70,4 @@ public class UserClient {
   public String extractToken(Response response) {
     return response.jsonPath().getString("accessToken");
   }
-  // Вспомогательный метод для подготовки токена в формате "Bearer <токен>"
-  private String prepareBearerToken(String accessToken) {
-    if (!accessToken.startsWith("Bearer ")) {
-      return "Bearer " + accessToken;
-    }
-    return accessToken;
-  }
 }

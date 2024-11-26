@@ -35,5 +35,4 @@ public class OrderClient {
         .when()
         .get(ApiConfig.BASE_URL + ApiConfig.GET_ALL_ORDERS);
   }
-
 }

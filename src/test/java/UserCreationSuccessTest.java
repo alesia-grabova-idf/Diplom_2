@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class UserCreationSuccessTest {
+
   private UserClient userClient;
   private String accessToken;
 
@@ -22,7 +23,7 @@ public class UserCreationSuccessTest {
   @After
   public void tearDown() {
     if (accessToken != null) {
-    userClient.deleteUser(accessToken);
+      userClient.deleteUser(accessToken);
     }
   }
 
