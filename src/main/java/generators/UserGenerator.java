@@ -1,17 +1,17 @@
 package generators;
 
-import static utils.Utils.randomString;
+import com.github.javafaker.Faker;
 
 import models.User;
 
 public class UserGenerator {
+  private static final Faker faker = new Faker();
 
   public static User randomUser() {
-    final String EMAIL_DOMAIN = "@test.com";
     return new User(
-        (randomString(8) + EMAIL_DOMAIN),
-        (randomString(12)),
-        (randomString(10))
+        faker.internet().emailAddress(), // Генерирует случайный email
+        faker.internet().password(8, 16), // Генерирует случайный пароль от 8 до 16 символов
+        faker.name().firstName() // Генерирует случайное имя
     );
   }
 }

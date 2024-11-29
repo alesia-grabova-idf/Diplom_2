@@ -2,7 +2,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
 import clients.UserClient;
-import generators.UserGenerator;
+import com.github.javafaker.Faker;
 import io.restassured.response.Response;
 import models.User;
 import models.UserCreds;
@@ -14,6 +14,7 @@ public class UserCreationSuccessTest {
 
   private UserClient userClient;
   private String accessToken;
+  private static Faker faker = new Faker();
 
   @Before
   public void setUp() {
@@ -29,7 +30,13 @@ public class UserCreationSuccessTest {
 
   @Test
   public void successfulUserRegistrationTest() {
-    User user = UserGenerator.randomUser();
+    // Создаем пользователя с помощью Faker
+    User user = new User(
+        faker.internet().emailAddress(), // Генерация случайного email
+        faker.internet().password(),    // Генерация случайного пароля
+        faker.name().firstName()        // Генерация случайного имени
+    );
+
     Response registerResponse = userClient.registerUser(user);
     // Проверка успешной регистрации
     registerResponse.then()

@@ -35,4 +35,12 @@ public class OrderClient {
         .when()
         .get(ApiConfig.BASE_URL + ApiConfig.GET_ALL_ORDERS);
   }
+
+  @Step("Send GET request to get all ingredients")
+  public Response getAllIngredients() {
+    return given()
+        .header("Content-Type", "application/json")
+        .when()
+        .get(ApiConfig.BASE_URL + ApiConfig.GET_INGREDIENTS);
+  }
 }

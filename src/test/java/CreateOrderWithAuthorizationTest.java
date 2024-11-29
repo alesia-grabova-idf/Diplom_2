@@ -2,6 +2,7 @@ import static org.hamcrest.Matchers.is;
 
 import clients.OrderClient;
 import clients.UserClient;
+import com.github.javafaker.Faker;
 import generators.OrderGenerator;
 import generators.UserGenerator;
 import io.restassured.response.Response;
@@ -16,6 +17,7 @@ public class CreateOrderWithAuthorizationTest {
   private OrderClient orderClient;
   private String accessToken;
   private UserClient userClient;
+  private static Faker faker = new Faker();
 
   @Before
   public void setUp() {
@@ -57,7 +59,7 @@ public class CreateOrderWithAuthorizationTest {
   @Test
   public void createOrderWithAuthorizationWithInvalidIngredientsTest() {
     Order order = OrderGenerator.generateRandomOrder();
-    order.setIngredients("ivalid123".lines().toList());
+    order.setIngredients(faker.lorem().characters(5).lines().toList());
     Response madeOrderResponse = orderClient.createOrder(accessToken, order);
     madeOrderResponse.then()
         .assertThat()
